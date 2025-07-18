@@ -1,12 +1,21 @@
-FROM python:3.10.8-slim-buster
+# Use updated Debian base to avoid 404 errors
+FROM python:3.10.8-slim-bullseye
 
-RUN apt update && apt upgrade -y
-RUN apt install git -y
+# Install system packages
+RUN apt update && apt upgrade -y && \
+    apt install git -y && \
+    apt clean
+
+# Copy and install Python dependencies
 COPY requirements.txt /requirements.txt
+RUN pip3 install --upgrade pip && \
+    pip3 install --no-cache-dir -r /requirements.txt
 
-RUN cd /
-RUN pip3 install -U pip && pip3 install -U -r requirements.txt
-RUN mkdir /VJ-Forward-Bot
+# Set working directory
 WORKDIR /VJ-Forward-Bot
-COPY . /VJ-Forward-Bot
-CMD gunicorn app:app & python3 main.py
+
+# Copy all project files
+COPY . .
+
+# Start the app (gunicorn in background, then main.py)
+CMD sh -c "gunicorn app:app & python3 main.py"
