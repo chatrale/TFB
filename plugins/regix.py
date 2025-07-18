@@ -102,9 +102,9 @@ async def pub_(bot, message):
             user_have_db = True
     temp.forwardings += 1
     await db.add_frwd(user)
-    await send(client, user, "<b>Fᴏʀᴡᴀʀᴅɪɴɢ sᴛᴀʀᴛᴇᴅ🔥</b>")
+    await send(client, user, "<b>Fᴏʀᴡᴀᴅɪɴɢ sᴛᴀʀᴛᴇᴅ🔥</b>")
     sts.add(time=True)
-    sleep = 5  # Modified: Uniform 5-second delay for individual message copying
+    sleep = 1 if _bot['is_bot'] else 10
     await msg_edit(m, "<code>processing...</code>") 
     temp.IS_FRWD_CHAT.append(i.TO)
     temp.lock[user] = locked = True
@@ -122,7 +122,7 @@ async def pub_(bot, message):
                    return
                 if pling %20 == 0: 
                    await edit(user, m, 'ᴘʀᴏɢʀᴇssɪɴɢ', 5, sts)
-                pling += 1 the
+                pling += 1
                 sts.add('fetched')
                 if message == "DUPLICATE":
                    sts.add('duplicate')
@@ -153,11 +153,11 @@ async def pub_(bot, message):
                    MSG.append(message.id)
                    notcompleted = len(MSG)
                    completed = sts.get('total') - sts.get('fetched')
-                   if (notcompleted >= 100 
+                   if ( notcompleted >= 100 
                         or completed <= 100): 
                       await forward(user, client, MSG, m, sts, protect)
                       sts.add('total_files', notcompleted)
-                      await asyncio.sleep(7)  # Modified: 7-second delay for bulk forwarding
+                      await asyncio.sleep(10)
                       MSG = []
                 else:
                    new_caption = custom_caption(message, caption)
@@ -174,7 +174,7 @@ async def pub_(bot, message):
             temp.IS_FRWD_CHAT.remove(sts.TO)
             return await stop(client, user)
         temp.IS_FRWD_CHAT.remove(sts.TO)
-        await send(client, user, "<b>🎉 ғᴏʀᴡᴀʀᴅɪɴɢ ᴄᴏᴍᴘʟᴇᴛᴇᴅ</b>")
+        await send(client, user, "<b>🎉 ғᴏʀᴡᴀᴅɪɴɢ ᴄᴏᴍᴘʟᴇᴛᴇᴅ</b>")
         await edit(user, m, 'ᴄᴏᴍᴘʟᴇᴛᴇᴅ', "completed", sts) 
         if user_have_db:
             await user_db.drop_all()
@@ -279,7 +279,7 @@ async def is_cancelled(client, user, msg, sts):
       if sts.TO in temp.IS_FRWD_CHAT:
          temp.IS_FRWD_CHAT.remove(sts.TO)
       await edit(user, msg, 'ᴄᴀɴᴄᴇʟʟᴇᴅ', "cancelled", sts)
-      await send(client, user, "<b>❌ ғᴏʀᴡᴀʀᴅɪɴɢ ᴄᴀɴᴄᴇʟʟᴇᴅ</b>")
+      await send(client, user, "<b>❌ ғᴏʀᴡᴀᴅɪɴɢ ᴄᴀɴᴄᴇʟʟᴇᴅ</b>")
       await stop(client, user)
       return True 
    return False 
@@ -561,7 +561,7 @@ async def restart_pending_forwads(bot, user):
     except KeyError:
         start = None
     sts.add(time=True, start_time=start)
-    sleep = 5  # Modified: Uniform 5-second delay for individual message copying
+    sleep = 1 if _bot['is_bot'] else 10
     #await msg_edit(m, "<code>processing...</code>") 
     temp.IS_FRWD_CHAT.append(i.TO)
     temp.lock[user] = locked = True
@@ -615,11 +615,11 @@ async def restart_pending_forwads(bot, user):
                    MSG.append(message.id)
                    notcompleted = len(MSG)
                    completed = sts.get('total') - sts.get('fetched')
-                   if (notcompleted >= 100 
+                   if ( notcompleted >= 100 
                         or completed <= 100): 
                       await forward(user, client, MSG, m, sts, protect)
                       sts.add('total_files', notcompleted)
-                      await asyncio.sleep(7)  # Modified: 7-second delay for bulk forwarding
+                      await asyncio.sleep(10)
                       MSG = []
                 else:
                    new_caption = custom_caption(message, caption)
@@ -635,7 +635,7 @@ async def restart_pending_forwads(bot, user):
             temp.IS_FRWD_CHAT.remove(sts.TO)
             return await stop(client, user)
         temp.IS_FRWD_CHAT.remove(sts.TO)
-        await send(client, user, "<b>🎉 ғᴏʀᴡᴀʀᴅɪɴɢ ᴄᴏᴍᴘʟᴇᴛᴇᴅ</b>")
+        await send(client, user, "<b>🎉 ғᴏʀᴡᴀᴅɪɴɢ ᴄᴏᴍᴘʟᴇᴛᴇᴅ</b>")
         if user_have_db:
             await user_db.drop_all()
             await user_db.close()
